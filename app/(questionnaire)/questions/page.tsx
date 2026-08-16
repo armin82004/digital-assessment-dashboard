@@ -384,6 +384,16 @@ function ResultSummary({
   questionnaire: SectorQuestionnaire;
   answers: Answers;
 }) {
+  const [isSmall, setIsSmall] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 639px)");
+    const update = () => setIsSmall(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
   const dimensionScores = useMemo(
     () => computeDimensionScores(sector, questionnaire, answers),
     [sector, questionnaire, answers],
@@ -400,40 +410,48 @@ function ResultSummary({
   }));
 
   return (
-    <main className="min-h-screen flex items-start sm:items-center justify-center px-4 py-8 sm:py-12">
-      <div className="p-4 sm:p-6 md:p-10 flex flex-col gap-6 w-full max-w-3xl">
-        <h1 className="text-xl sm:text-2xl leading-relaxed text-balance">
+    <main className="min-h-screen flex items-start lg:items-center justify-center px-3 sm:px-6 py-6 sm:py-10 lg:py-12">
+      <div className="w-full max-w-3xl flex flex-col gap-5 sm:gap-6 p-0 sm:p-6 md:p-10">
+        <h1 className="text-lg sm:text-2xl leading-relaxed text-balance">
           نتیجه ارزیابی شما
         </h1>
 
-        <div className="rounded-lg border p-4 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
-          <span className="text-sm sm:text-base text-muted-foreground">
+        <div className="rounded-lg border p-3 sm:p-4 flex flex-col sm:flex-row gap-1 sm:gap-2 sm:items-center sm:justify-between">
+          <span className="text-xs sm:text-base text-muted-foreground">
             امتیاز کلی
           </span>
 
-          <span className="text-lg sm:text-xl font-semibold">
+          <span className="text-base sm:text-xl font-semibold text-balance">
             {faNum(overallScore, 2)} از {toPersianDigits(5)} (
             {faNum((overallScore / 5) * 100, 0)}
             %)
           </span>
         </div>
 
-        <div className="h-64 sm:h-80 w-full" dir="ltr">
+        <div
+          className="h-56 xs:h-64 sm:h-80 lg:h-96 w-full -mx-1 sm:mx-0"
+          dir="ltr"
+        >
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={chartData} layout="vertical" margin={{ left: 8 }}>
+            <BarChart
+              data={chartData}
+              layout="vertical"
+              margin={{ top: 4, right: 8, bottom: 4, left: isSmall ? 0 : 8 }}
+            >
               <CartesianGrid strokeDasharray="3 3" />
 
               <XAxis
                 type="number"
                 domain={[0, 5]}
+                tick={{ fontSize: isSmall ? 10 : 12 }}
                 tickFormatter={(value: number) => toPersianDigits(value)}
               />
 
               <YAxis
                 type="category"
                 dataKey="name"
-                width={90}
-                tick={{ fontSize: 10 }}
+                width={isSmall ? 64 : 90}
+                tick={{ fontSize: isSmall ? 9 : 11 }}
               />
 
               <Tooltip
@@ -445,15 +463,15 @@ function ResultSummary({
           </ResponsiveContainer>
         </div>
 
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2 sm:gap-3">
           {dimensionScores.map((d) => (
             <div
               key={d.id}
-              className="flex flex-col sm:flex-row gap-1 sm:gap-4 sm:justify-between border-b pb-2 text-sm sm:text-base"
+              className="flex flex-col sm:flex-row gap-0.5 sm:gap-4 sm:items-baseline sm:justify-between border-b pb-2 text-xs sm:text-base"
             >
-              <span className="text-pretty">{d.title}</span>
+              <span className="text-pretty min-w-0">{d.title}</span>
 
-              <span className="text-muted-foreground sm:text-foreground whitespace-nowrap">
+              <span className="text-muted-foreground sm:text-foreground whitespace-nowrap shrink-0">
                 {faNum(d.score, 1)} از {toPersianDigits(5)}
               </span>
             </div>
