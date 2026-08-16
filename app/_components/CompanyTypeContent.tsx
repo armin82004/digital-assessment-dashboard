@@ -1,6 +1,12 @@
-'use client'
+"use client";
 import { Button } from "@/components/ui/button";
-import { Field, FieldContent, FieldDescription, FieldLabel, FieldTitle } from "@/components/ui/field";
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldLabel,
+  FieldTitle,
+} from "@/components/ui/field";
 import { RadioGroupItem } from "@/components/ui/radio-group";
 import { Spinner } from "@/components/ui/spinner";
 import { RadioGroup } from "@base-ui/react";
@@ -48,26 +54,30 @@ export default function CompanyTypeContent() {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center">
+    <main className="min-h-screen flex items-center justify-center px-4 py-8">
       {sectors.length === 0 ? (
-        <div className="p-10 flex items-center justify-center">
-          <Spinner className="size-10" />
+        <div className="p-6 sm:p-10 flex items-center justify-center w-full max-w-2xl">
+          <Spinner className="size-8 sm:size-10" />
         </div>
       ) : (
-        <div className="p-10 flex flex-col gap-10 w-2xl">
-          <h1 className="text-2xl">نوع فعالیت شرکت شما چیست؟</h1>
+        <div className="p-4 sm:p-6 md:p-10 flex flex-col gap-6 sm:gap-10 w-full max-w-2xl">
+          <h1 className="text-xl sm:text-2xl leading-relaxed text-balance">
+            نوع فعالیت شرکت شما چیست؟
+          </h1>
 
           <RadioGroup
             value={selectedSectorId ?? ""}
             onValueChange={setSelectedSectorId}
-            className="flex"
+            className="flex flex-col sm:flex-row gap-4"
           >
             {sectors.map((item) => (
-              <FieldLabel key={item.id} htmlFor={item.id}>
+              <FieldLabel key={item.id} htmlFor={item.id} className="flex-1">
                 <Field orientation="horizontal">
                   <FieldContent>
                     <FieldTitle>{item.name}</FieldTitle>
-                    <FieldDescription>{item.description}</FieldDescription>
+                    <FieldDescription className="text-pretty">
+                      {item.description}
+                    </FieldDescription>
                   </FieldContent>
 
                   <RadioGroupItem value={item.id} id={item.id} />
@@ -77,7 +87,7 @@ export default function CompanyTypeContent() {
           </RadioGroup>
 
           <Button
-            className="self-end"
+            className="w-full sm:w-auto sm:self-end"
             size="lg"
             disabled={!selectedSectorId}
             onClick={handleContinue}

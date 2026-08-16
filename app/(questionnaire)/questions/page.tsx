@@ -228,16 +228,16 @@ function QuestionsContent() {
 
   if (loading) {
     return (
-      <main className="min-h-screen flex items-center justify-center">
-        <Spinner className="size-10" />
+      <main className="min-h-screen flex items-center justify-center px-4 py-8">
+        <Spinner className="size-8 sm:size-10" />
       </main>
     );
   }
 
   if (error) {
     return (
-      <main className="min-h-screen flex items-center justify-center">
-        <p>خطا در دریافت اطلاعات ارزیابی</p>
+      <main className="min-h-screen flex items-center justify-center px-4 py-8">
+        <p className="text-center text-pretty">خطا در دریافت اطلاعات ارزیابی</p>
       </main>
     );
   }
@@ -288,13 +288,13 @@ function QuestionsContent() {
   }
 
   return (
-    <main className="absolute inset-x-0 top-20 min-h-screen flex items-center justify-center">
-      <div className="p-10 flex flex-col gap-8 w-2xl">
+    <main className="min-h-screen flex items-start sm:items-center justify-center px-4 pt-24 pb-10 sm:py-12">
+      <div className="p-4 sm:p-6 md:p-10 flex flex-col gap-6 sm:gap-8 w-full max-w-2xl">
         <div className="flex flex-col gap-2">
-          <div className="flex justify-between text-sm text-muted-foreground">
+          <div className="flex flex-wrap gap-x-2 gap-y-1 justify-between text-xs sm:text-sm text-muted-foreground">
             <span>{dimension.title}</span>
 
-            <span>
+            <span className="whitespace-nowrap">
               سوال {toPersianDigits(currentIndex + 1)} از{" "}
               {toPersianDigits(total)}
             </span>
@@ -311,17 +311,19 @@ function QuestionsContent() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <span className="text-sm text-muted-foreground">
+          <span className="text-xs sm:text-sm text-muted-foreground text-pretty">
             {question.component} / {question.indicator}
           </span>
 
           {question.generalQuestion && (
-            <p className="text-base text-muted-foreground">
+            <p className="text-sm sm:text-base text-muted-foreground text-pretty">
               {question.generalQuestion}
             </p>
           )}
 
-          <h1 className="text-xl font-medium">{question.specificQuestion}</h1>
+          <h1 className="text-lg sm:text-xl font-medium leading-relaxed text-balance">
+            {question.specificQuestion}
+          </h1>
         </div>
 
         <RadioGroup
@@ -336,7 +338,9 @@ function QuestionsContent() {
             >
               <Field orientation="horizontal">
                 <FieldContent>
-                  <FieldDescription>{criterion.description}</FieldDescription>
+                  <FieldDescription className="text-pretty">
+                    {criterion.description}
+                  </FieldDescription>
                 </FieldContent>
 
                 <RadioGroupItem
@@ -348,12 +352,21 @@ function QuestionsContent() {
           ))}
         </RadioGroup>
 
-        <div className="flex justify-between">
-          <Button variant="outline" onClick={handleBack} disabled={isFirst}>
+        <div className="flex flex-col-reverse sm:flex-row gap-3 sm:justify-between">
+          <Button
+            variant="outline"
+            className="w-full sm:w-auto"
+            onClick={handleBack}
+            disabled={isFirst}
+          >
             قبلی
           </Button>
 
-          <Button onClick={handleNext} disabled={!currentAnswer}>
+          <Button
+            className="w-full sm:w-auto"
+            onClick={handleNext}
+            disabled={!currentAnswer}
+          >
             {isLast ? "پایان و مشاهده نتیجه" : "بعدی"}
           </Button>
         </div>
@@ -387,23 +400,27 @@ function ResultSummary({
   }));
 
   return (
-    <main className="min-h-screen flex items-center justify-center">
-      <div className="p-10 flex flex-col gap-6 w-full max-w-3xl">
-        <h1 className="text-2xl">نتیجه ارزیابی شما</h1>
+    <main className="min-h-screen flex items-start sm:items-center justify-center px-4 py-8 sm:py-12">
+      <div className="p-4 sm:p-6 md:p-10 flex flex-col gap-6 w-full max-w-3xl">
+        <h1 className="text-xl sm:text-2xl leading-relaxed text-balance">
+          نتیجه ارزیابی شما
+        </h1>
 
-        <div className="rounded-lg border p-4 flex items-center justify-between">
-          <span className="text-muted-foreground">امتیاز کلی</span>
+        <div className="rounded-lg border p-4 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
+          <span className="text-sm sm:text-base text-muted-foreground">
+            امتیاز کلی
+          </span>
 
-          <span className="text-xl font-semibold">
+          <span className="text-lg sm:text-xl font-semibold">
             {faNum(overallScore, 2)} از {toPersianDigits(5)} (
             {faNum((overallScore / 5) * 100, 0)}
             %)
           </span>
         </div>
 
-        <div className="h-80 w-full" dir="ltr">
+        <div className="h-64 sm:h-80 w-full" dir="ltr">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={chartData} layout="vertical" margin={{ left: 24 }}>
+            <BarChart data={chartData} layout="vertical" margin={{ left: 8 }}>
               <CartesianGrid strokeDasharray="3 3" />
 
               <XAxis
@@ -415,8 +432,8 @@ function ResultSummary({
               <YAxis
                 type="category"
                 dataKey="name"
-                width={160}
-                tick={{ fontSize: 12 }}
+                width={90}
+                tick={{ fontSize: 10 }}
               />
 
               <Tooltip
@@ -430,10 +447,13 @@ function ResultSummary({
 
         <div className="flex flex-col gap-3">
           {dimensionScores.map((d) => (
-            <div key={d.id} className="flex justify-between border-b pb-2">
-              <span>{d.title}</span>
+            <div
+              key={d.id}
+              className="flex flex-col sm:flex-row gap-1 sm:gap-4 sm:justify-between border-b pb-2 text-sm sm:text-base"
+            >
+              <span className="text-pretty">{d.title}</span>
 
-              <span>
+              <span className="text-muted-foreground sm:text-foreground whitespace-nowrap">
                 {faNum(d.score, 1)} از {toPersianDigits(5)}
               </span>
             </div>

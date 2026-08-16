@@ -41,27 +41,31 @@ export default function SelectIndustry() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center">
+    <main className="min-h-screen flex items-center justify-center px-4 py-8">
       {industries.length === 0 ? (
-        <div className="p-10 flex items-center justify-center gap-10 w-2xl">
-          <Spinner className="size-10" />
+        <div className="p-6 sm:p-10 flex items-center justify-center gap-10 w-full max-w-2xl">
+          <Spinner className="size-8 sm:size-10" />
         </div>
       ) : (
-        <div className="p-10 flex flex-col gap-10 w-2xl">
-          <h1 className="text-2xl">شرکت شما در چه صنعتی قرار می گیرد؟</h1>
+        <div className="p-4 sm:p-6 md:p-10 flex flex-col gap-6 sm:gap-10 w-full max-w-2xl">
+          <h1 className="text-xl sm:text-2xl leading-relaxed text-balance">
+            شرکت شما در چه صنعتی قرار می گیرد؟
+          </h1>
 
           <RadioGroup
             onValueChange={(value) => {
               setSelectedId(value);
             }}
-            className="flex"
+            className="flex flex-col sm:flex-row gap-4"
           >
             {industries.map((item) => (
-              <FieldLabel key={item.id} htmlFor={item.id}>
+              <FieldLabel key={item.id} htmlFor={item.id} className="flex-1">
                 <Field orientation="horizontal">
                   <FieldContent>
                     <FieldTitle>{item.name}</FieldTitle>
-                    <FieldDescription>{item.description}</FieldDescription>
+                    <FieldDescription className="text-pretty">
+                      {item.description}
+                    </FieldDescription>
                   </FieldContent>
 
                   <RadioGroupItem value={item.id} id={item.id} />
@@ -71,7 +75,7 @@ export default function SelectIndustry() {
           </RadioGroup>
 
           <Button
-            className="self-end"
+            className="w-full sm:w-auto sm:self-end"
             size="lg"
             disabled={!selectedId}
             onClick={handleContinue}
