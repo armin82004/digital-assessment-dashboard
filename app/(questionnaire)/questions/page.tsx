@@ -10,7 +10,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Spinner } from "@/components/ui/spinner";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import {
   getQuestionnaire,
   type Sector,
@@ -143,7 +143,7 @@ function computeOverallScore(
   return scores.reduce((a, b) => a + b, 0) / scores.length;
 }
 
-export default function QuestionsPage() {
+function QuestionsContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -233,7 +233,6 @@ export default function QuestionsPage() {
       </main>
     );
   }
-
 
   if (error) {
     return (
@@ -442,5 +441,13 @@ function ResultSummary({
         </div>
       </div>
     </main>
+  );
+}
+
+export default function QuestionsPage() {
+  return (
+    <Suspense fallback={null}>
+      <QuestionsContent />
+    </Suspense>
   );
 }
