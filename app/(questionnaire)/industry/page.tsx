@@ -74,14 +74,24 @@ export default function SelectIndustry() {
             ))}
           </RadioGroup>
 
-          <Button
-            className="w-full sm:w-auto sm:self-end"
-            size="lg"
-            disabled={!selectedId}
-            onClick={handleContinue}
-          >
-            تایید
-          </Button>
+          <div className="flex justify-between flex-col sm:flex-row gap-3">
+            <Button
+              variant="outline"
+              className="w-full sm:w-auto sm:self-end"
+              size="lg"
+              onClick={() => router.back()}
+            >
+              صفحه قبلی
+            </Button>
+            <Button
+              className="w-full sm:w-auto sm:self-end"
+              size="lg"
+              disabled={!selectedId}
+              onClick={handleContinue}
+            >
+              تایید
+            </Button>
+          </div>
         </div>
       )}
     </main>
