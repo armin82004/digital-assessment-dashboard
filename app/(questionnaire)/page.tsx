@@ -28,7 +28,7 @@ export default async function Home() {
         مطرح می‌نماید. در ادامه خواهشمندیم به منظور تحقق اهداف ذکر شده، ما را در
         تکمیل این پرسشنامه همراهی فرمایید. از حسن توجه شما سپاسگزاریم.
       </p>
-      <div className="fixed bottom-0 left-0 w-full p-4 bg-background/80 backdrop-blur-sm sm:static sm:w-auto sm:p-0">
+      <div className="fixed bottom-0 left-0 w-full p-4 bg-neutral-100/30 dark:bg-background/50 backdrop-blur-sm sm:static sm:w-auto sm:p-0">
         <Link
           href="/industry"
           className="block w-full sm:w-auto max-w-xs mx-auto"
