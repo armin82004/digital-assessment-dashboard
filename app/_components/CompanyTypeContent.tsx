@@ -49,7 +49,7 @@ export default function CompanyTypeContent() {
     );
 
     router.push(
-      `/questions?industryId=${industry}&sectorId=${selectedSectorId}`,
+      `/respondent-profile?industryId=${industry}&sectorId=${selectedSectorId}`,
     );
   };
 

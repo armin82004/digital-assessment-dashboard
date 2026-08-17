@@ -32,24 +32,4 @@ export const auth = betterAuth({
       });
     },
   },
-  user: {
-    additionalFields: {
-      uniqueId: {
-        type: "string",
-        required: false,
-      },
-      licenseNumber: {
-        type: "string",
-        required: true,
-      },
-      province: {
-        type: "string",
-        required: true,
-      },
-      account_type: {
-        type: "string",
-        required: true,
-      },
-    },
-  },
 });

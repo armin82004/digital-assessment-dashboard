@@ -4,7 +4,7 @@ import { Suspense } from "react";
 
 export default function CompanyTypePage() {
   return (
-    <Suspense fallback={<Spinner className="size-10" />}>
+    <Suspense fallback={null}>
       <CompanyTypeContent />
     </Suspense>
   );
