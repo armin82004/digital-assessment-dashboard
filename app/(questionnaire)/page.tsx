@@ -1,27 +1,37 @@
 import { Button } from "@/components/ui/button";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
 import Link from "next/link";
 
 export default async function Home() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
   return (
-    <>
-      <main className="flex flex-col gap-3 sm:gap-4 justify-center items-center min-h-[70vh] sm:min-h-130 px-4 py-8 text-center">
-        <h1 className="text-xl sm:text-2xl md:text-3xl leading-relaxed text-balance">
-          به پرسشنامه ارزیابی آمادگی دیجیتال خوش آمدید.
-        </h1>
-        <>
-          <p className="text-sm sm:text-base text-pretty">
-            برای شروع پرسشنامه کلیک کنید:
-          </p>
-          <Link href={"/industry"} className="w-full sm:w-auto max-w-xs">
-            <Button className="w-full sm:w-auto">شروع پرسشنامه</Button>
-          </Link>
-        </>
-      </main>
-    </>
+    <main className="flex flex-col gap-3 sm:gap-4 justify-center items-center min-h-[calc(100vh-80px)] px-4 py-6 sm:py-8 text-center overflow-y-auto">
+      <h1 className="text-xl sm:text-2xl md:text-3xl leading-relaxed text-balance">
+        ارزیابی آمادگی دیجیتال
+      </h1>
+
+      <p className="text-sm sm:text-base text-justify w-full max-w-2xl leading-8">
+        تحول دیجیتال به یکی از مهم‌ترین الزامات ارتقای بهره‌وری، پایداری و تاب
+        آوری در صنعت انرژی تبدیل شده است. درحال حاضر صنعت انرژی با مسائل و
+        مشکلات متعددی مواجه است و بهره‌گیری از فناوری‌های دیجیتال، سامانه‌های
+        هوشمند، تحلیل داده، اینترنت اشیا و ابزارهای تصمیم‌یار می‌تواند نقش مؤثری
+        در مدیریت این چالش‌ها، پاسخگویی به مشکلات، کاهش هزینه‌ها، کنترل ریسک‌ها
+        و بهبود عملکرد تولید ایفا کند. با این حال، موفقیت در مسیر تحول دیجیتال
+        مستلزم شناخت دقیق میزان آمادگی از جنبه‌های مدیریتی، فرایندی، فناورانه،
+        زیرساختی، انسانی و داده‌ای است. از این رو، هدف این پژوهش ارزیابی آمادگی
+        دیجیتال صنعت انرژی و زیربخش‌های آن از جمله توانیر است تا نقاط قوت،
+        شکاف‌ها و نیازهای توسعه‌ای این حوزه شناسایی شود. نتایج این ارزیابی
+        می‌تواند مبنایی برای تدوین سیاست‌ها، برنامه‌های سرمایه‌گذاری و تشویقی،
+        توسعه زیرساخت‌ها، توانمندسازی نیروی انسانی و اجرای پروژه‌های تحول
+        دیجیتال اولویت‌دار در صنعت انرژی کشور فراهم سازد. نتیجه گامهای این
+        پژوهش، مدل ارزیابی آمادگی دیجیتال طراحی شده در قالب هفت بعد است. در هر
+        بعد نیز مولفه‌ها و شاخص‌های متناسب با آن بعد طراحی شده است که این
+        پرسشنامه براساس این مدل، در هر بعد و مولفه‌های مرتبط با آن پرسشهایی را
+        مطرح می‌نماید. در ادامه خواهشمندیم به منظور تحقق اهداف ذکر شده، ما را در
+        تکمیل این پرسشنامه همراهی فرمایید. از حسن توجه شما سپاسگزاریم.
+      </p>
+
+      <Link href="/industry" className="w-full sm:w-auto max-w-xs">
+        <Button className="w-full sm:w-auto">شروع پرسشنامه</Button>
+      </Link>
+    </main>
   );
 }
