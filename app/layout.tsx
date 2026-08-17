@@ -27,7 +27,7 @@ export default function RootLayout({
       suppressHydrationWarning
       dir="rtl"
     >
-      <body className="dark:selection:bg-neutral-700 selection:bg-blue-700 selection:text-white dark:bg-neutral-900">
+      <body className="dark:selection:bg-neutral-700 selection:bg-blue-700 selection:text-white ">
         <DirectionProvider direction="rtl">
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
