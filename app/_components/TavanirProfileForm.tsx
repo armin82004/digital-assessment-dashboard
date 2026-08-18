@@ -130,9 +130,8 @@ export default function TavanirProfileForm({ industryId, sectorId }: Props) {
 
       <div className="grid gap-2">
         <Label>شرکت</Label>
-
         <Select
-          value={profile.company_id}
+          value={profile.company_id || ""}
           onValueChange={(value) =>
             setProfile({
               ...profile,
@@ -141,8 +140,8 @@ export default function TavanirProfileForm({ industryId, sectorId }: Props) {
           }
         >
           <SelectTrigger dir="rtl">
-            <SelectValue placeholder="انتخاب شرکت">
-              {getCompanyName()}
+            <SelectValue>
+              {profile.company_id ? getCompanyName() : "انتخاب شرکت"}
             </SelectValue>
           </SelectTrigger>
 
