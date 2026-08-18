@@ -73,6 +73,7 @@ export default function TavanirProfileForm({ industryId, sectorId }: Props) {
   }, []);
 
   async function handleSubmit() {
+    setLoading(true);
     if (!profile.full_name || !profile.company_id || !profile.position) {
       return;
     }

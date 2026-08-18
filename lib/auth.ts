@@ -7,6 +7,10 @@ export const pool = new Pool({
 });
 
 export const auth = betterAuth({
+  trustedOrigins: [
+    "http://localhost:3000",
+    "https://digital-assessment-dashboard-gcjx.vercel.app/",
+  ],
   database: pool,
   emailAndPassword: {
     enabled: true,
@@ -22,6 +26,7 @@ export const auth = betterAuth({
     },
   },
   emailVerification: {
+    autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user, url }) => {
       await sendEmail({
         to: user.email,

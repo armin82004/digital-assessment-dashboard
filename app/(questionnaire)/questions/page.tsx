@@ -37,7 +37,6 @@ function toPersianDigits(input: string | number) {
 
 function QuestionsContent() {
   const router = useRouter();
-
   const searchParams = useSearchParams();
 
   const industryId = searchParams.get("industryId");
@@ -45,25 +44,26 @@ function QuestionsContent() {
   const respondentId = searchParams.get("respondentId");
 
   const [questions, setQuestions] = useState<Question[]>([]);
-
   const [answers, setAnswers] = useState<Answer>({});
-
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const [loading, setLoading] = useState(true);
-
+  const [submitting, setSubmitting] = useState(false);
   const [finished, setFinished] = useState(false);
 
   useEffect(() => {
     if (!sectorId || !respondentId) {
       router.replace("/industry");
-
       return;
     }
 
     async function loadQuestions() {
       try {
         const res = await fetch(`/api/questionnaire?sectorId=${sectorId}`);
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch questions");
+        }
 
         const data = await res.json();
 
@@ -99,62 +99,64 @@ function QuestionsContent() {
   const currentAnswer = answers[question.question_id];
 
   const isFirst = currentIndex === 0;
-
   const isLast = currentIndex === questions.length - 1;
 
-function handleAnswer(value: string) {
-  const score = Number(value) as 1 | 2 | 3 | 4 | 5;
+  function handleAnswer(value: string) {
+    const score = Number(value) as 1 | 2 | 3 | 4 | 5;
 
-  setAnswers((prev) => ({
-    ...prev,
-    [question.question_id]: score,
-  }));
-}
-
-async function handleNext() {
-  if (!currentAnswer) return;
-
-  const finalAnswers = {
-    ...answers,
-    [question.question_id]: currentAnswer,
-  };
-
-  if (isLast) {
-    try {
-      const res = await fetch("/api/answers", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          respondent_profile_id: respondentId,
-          industry_id: industryId,
-          sector_id: sectorId,
-          answers: finalAnswers,
-        }),
-      });
-
-      if (!res.ok) {
-        const error = await res.text();
-        console.error(error);
-        return;
-      }
-
-      setFinished(true);
-    } catch (error) {
-      console.error(error);
-    }
-
-    return;
+    setAnswers((prev) => ({
+      ...prev,
+      [question.question_id]: score,
+    }));
   }
 
-  setAnswers(finalAnswers);
+  async function handleNext() {
+    if (!currentAnswer || submitting) return;
 
-  setCurrentIndex((prev) => prev + 1);
-}
+    const finalAnswers = {
+      ...answers,
+      [question.question_id]: currentAnswer,
+    };
+
+    if (isLast) {
+      setSubmitting(true);
+
+      try {
+        const res = await fetch("/api/answers", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            respondent_profile_id: respondentId,
+            industry_id: industryId,
+            sector_id: sectorId,
+            answers: finalAnswers,
+          }),
+        });
+
+        if (!res.ok) {
+          const error = await res.text();
+          console.error(error);
+          return;
+        }
+
+        setFinished(true);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setSubmitting(false);
+      }
+
+      return;
+    }
+
+    setAnswers(finalAnswers);
+    setCurrentIndex((prev) => prev + 1);
+  }
 
   function handleBack() {
-    if (!isFirst) {
+    if (!isFirst && !submitting) {
       setCurrentIndex((prev) => prev - 1);
     }
   }
@@ -176,90 +178,112 @@ async function handleNext() {
   }
 
   return (
-    <main className="min-h-screen flex items-start sm:items-center justify-center px-4 pt-24 pb-10 sm:py-12">
-      <div className="p-4 sm:p-6 md:p-10 flex flex-col gap-6 sm:gap-8 w-full max-w-2xl">
-        <div className="flex flex-col gap-2">
-          <div className="flex justify-between text-xs sm:text-sm text-muted-foreground">
-            <span>{question.dimension_title}</span>
+    <>
+      {/* ارسال اطلاعات */}
+      {submitting && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+          <div
+            dir="rtl"
+            className="flex flex-col items-center gap-4 rounded-xl bg-background p-8 shadow-lg"
+          >
+            <Spinner className="size-10" />
 
-            <span>
-              سوال {toPersianDigits(currentIndex + 1)} از{" "}
-              {toPersianDigits(questions.length)}
+            <div className="text-center">
+              <p className="text-base font-medium">در حال ارسال اطلاعات</p>
+
+              <p className="mt-1 text-sm text-muted-foreground">
+                لطفاً صبر کنید...
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <main className="min-h-screen flex items-start sm:items-center justify-center px-4 pt-24 pb-10 sm:py-12">
+        <div className="p-4 sm:p-6 md:p-10 flex flex-col gap-6 sm:gap-8 w-full max-w-2xl">
+          <div className="flex flex-col gap-2">
+            <div className="flex justify-between text-xs sm:text-sm text-muted-foreground">
+              <span>{question.dimension_title}</span>
+
+              <span>
+                سوال {toPersianDigits(currentIndex + 1)} از{" "}
+                {toPersianDigits(questions.length)}
+              </span>
+            </div>
+
+            <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+              <div
+                className="h-full bg-primary transition-all"
+                style={{
+                  width: `${((currentIndex + 1) / questions.length) * 100}%`,
+                }}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <span className="text-xs sm:text-sm text-muted-foreground">
+              {question.component_title}
+              {" / "}
+              {question.index_title}
             </span>
+
+            <h1 className="text-lg sm:text-xl font-medium leading-relaxed">
+              {question.question_text}
+            </h1>
           </div>
 
-          <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
-            <div
-              className="h-full bg-primary transition-all"
-              style={{
-                width: `${((currentIndex + 1) / questions.length) * 100}%`,
-              }}
-            />
-          </div>
-        </div>
+          <RadioGroup
+            value={currentAnswer?.toString() ?? ""}
+            onValueChange={handleAnswer}
+            className="flex flex-col gap-3"
+          >
+            {[
+              question.option_1,
+              question.option_2,
+              question.option_3,
+              question.option_4,
+              question.option_5,
+            ].map((option, index) => (
+              <FieldLabel
+                key={index}
+                htmlFor={`${question.question_id}-${index + 1}`}
+              >
+                <Field orientation="horizontal">
+                  <FieldContent>
+                    <FieldDescription>{option}</FieldDescription>
+                  </FieldContent>
 
-        <div className="flex flex-col gap-2">
-          <span className="text-xs sm:text-sm text-muted-foreground">
-            {question.component_title}
-            {" / "}
-            {question.index_title}
-          </span>
+                  <RadioGroupItem
+                    value={(index + 1).toString()}
+                    id={`${question.question_id}-${index + 1}`}
+                  />
+                </Field>
+              </FieldLabel>
+            ))}
+          </RadioGroup>
 
-          <h1 className="text-lg sm:text-xl font-medium leading-relaxed">
-            {question.question_text}
-          </h1>
-        </div>
-
-        <RadioGroup
-          value={currentAnswer?.toString() ?? ""}
-          onValueChange={handleAnswer}
-          className="flex flex-col gap-3"
-        >
-          {[
-            question.option_1,
-            question.option_2,
-            question.option_3,
-            question.option_4,
-            question.option_5,
-          ].map((option, index) => (
-            <FieldLabel
-              key={index}
-              htmlFor={`${question.question_id}-${index + 1}`}
+          <div className="flex flex-col-reverse sm:flex-row gap-3 sm:justify-between">
+            <Button
+              variant="outline"
+              className="w-full sm:w-auto"
+              disabled={isFirst || submitting}
+              onClick={handleBack}
             >
-              <Field orientation="horizontal">
-                <FieldContent>
-                  <FieldDescription>{option}</FieldDescription>
-                </FieldContent>
+              قبلی
+            </Button>
 
-                <RadioGroupItem
-                  value={(index + 1).toString()}
-                  id={`${question.question_id}-${index + 1}`}
-                />
-              </Field>
-            </FieldLabel>
-          ))}
-        </RadioGroup>
-
-        <div className="flex flex-col-reverse sm:flex-row gap-3 sm:justify-between">
-          <Button
-            variant="outline"
-            className="w-full sm:w-auto"
-            disabled={isFirst}
-            onClick={handleBack}
-          >
-            قبلی
-          </Button>
-
-          <Button
-            className="w-full sm:w-auto"
-            disabled={!currentAnswer}
-            onClick={handleNext}
-          >
-            {isLast ? "پایان و مشاهده نتیجه" : "بعدی"}
-          </Button>
+            <Button
+              className="w-full sm:w-auto"
+              disabled={!currentAnswer || submitting}
+              onClick={handleNext}
+            >
+              {isLast ? "پایان و مشاهده نتیجه" : "بعدی"}
+            </Button>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 }
 

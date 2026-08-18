@@ -39,23 +39,34 @@ export default function AgricultureProfileForm({
       : profile.agriculture_unique_id);
 
   async function handleSubmit() {
-    const data = {
-      ...profile,
-      industry_id: industryId,
-      sector_id: sectorId,
-    };
+    try {   
+      const data = {
+        ...profile,
+        industry_id: industryId,
+        sector_id: sectorId,
+      };
 
-    const res = await fetch("/api/respondent-profile", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+      const res = await fetch("/api/respondent-profile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-    const result = await res.json();
+      if (!res.ok) {
+        console.error(await res.text());
+        return;
+      }
 
-    router.push(`/questions?respondentId=${result.id}`);
+      const result = await res.json();
+
+      router.push(
+        `/questions?respondentId=${result.id}&industryId=${industryId}&sectorId=${sectorId}`,
+      );
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (

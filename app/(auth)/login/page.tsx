@@ -67,7 +67,7 @@ export default function Login() {
       setLoading(false);
       return;
     }
-    router.push("/");
+    router.push("/dashboard");
   };
   return (
     <Card className="w-full max-w-sm sm:max-w-md mx-auto dark:bg-neutral-800 rounded-lg sm:rounded-xl h-auto flex flex-col justify-center p-2 sm:p-4">

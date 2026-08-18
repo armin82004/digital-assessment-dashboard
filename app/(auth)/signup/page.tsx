@@ -41,6 +41,7 @@ export default function Login() {
     event.preventDefault();
     setLoading(true);
     const { error } = await authClient.signUp.email({
+      callbackURL: "/dashboard",
       name: form.name,
       email: form.email,
       password: form.password,
@@ -56,7 +57,8 @@ export default function Login() {
   }
 
   return (
-    <Card className="w-full max-w-md sm:max-w-lg lg:max-w-xl mx-auto dark:bg-neutral-800 rounded-lg sm:rounded-xl h-auto flex flex-col justify-center p-2 sm:p-4">
+    <Card className="w-full max-w-sm sm:max-w-md mx-auto dark:bg-neutral-800 rounded-lg sm:rounded-xl h-auto flex flex-col justify-center p-2 sm:p-4">
+      {" "}
       <CardHeader className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-3 text-center">
         <Image src={"/logo.png"} width={35} height={35} alt="Logo" />
         <CardTitle className="text-base sm:text-lg lg:text-xl text-balance">
@@ -86,7 +88,7 @@ export default function Login() {
       </CardHeader>
       <CardContent>
         <form id="register-form" onSubmit={handleSubmit}>
-          <div className="grid grid-cols-1 gap-4 sm:gap-6">
+          <div className="flex flex-col gap-4 sm:gap-6">
             <div className="grid gap-2">
               <Label htmlFor="name">نام و نام خانوادگی</Label>
               <Input
