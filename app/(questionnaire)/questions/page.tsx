@@ -102,46 +102,56 @@ function QuestionsContent() {
 
   const isLast = currentIndex === questions.length - 1;
 
-  async function handleAnswer(value: string) {
-    const score = Number(value) as 1 | 2 | 3 | 4 | 5;
+function handleAnswer(value: string) {
+  const score = Number(value) as 1 | 2 | 3 | 4 | 5;
 
-    setAnswers((prev) => ({
-      ...prev,
-      [question.question_id]: score,
-    }));
+  setAnswers((prev) => ({
+    ...prev,
+    [question.question_id]: score,
+  }));
+}
 
-    await fetch("/api/answers", {
-      method: "POST",
+async function handleNext() {
+  if (!currentAnswer) return;
 
-      headers: {
-        "Content-Type": "application/json",
-      },
+  const finalAnswers = {
+    ...answers,
+    [question.question_id]: currentAnswer,
+  };
 
-      body: JSON.stringify({
-        respondent_profile_id: respondentId,
+  if (isLast) {
+    try {
+      const res = await fetch("/api/answers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          respondent_profile_id: respondentId,
+          industry_id: industryId,
+          sector_id: sectorId,
+          answers: finalAnswers,
+        }),
+      });
 
-        industry_id: industryId,
+      if (!res.ok) {
+        const error = await res.text();
+        console.error(error);
+        return;
+      }
 
-        sector_id: sectorId,
-
-        question_id: question.question_id,
-
-        selected_option: score,
-      }),
-    });
-  }
-
-  function handleNext() {
-    if (!currentAnswer) return;
-
-    if (isLast) {
       setFinished(true);
-
-      return;
+    } catch (error) {
+      console.error(error);
     }
 
-    setCurrentIndex((prev) => prev + 1);
+    return;
   }
+
+  setAnswers(finalAnswers);
+
+  setCurrentIndex((prev) => prev + 1);
+}
 
   function handleBack() {
     if (!isFirst) {

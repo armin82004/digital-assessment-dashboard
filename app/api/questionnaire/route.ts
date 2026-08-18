@@ -24,19 +24,9 @@ export async function GET(req: NextRequest) {
         q.option_3,
         q.option_4,
         q.option_5,
-        q.display_order AS question_order,
 
-        i.id AS index_id,
         i.title AS index_title,
-        i.dimension_weight,
-        i.main_weight,
-        i.indicator_weight,
-        i.global_weight,
-
-        c.id AS component_id,
         c.title AS component_title,
-
-        d.id AS dimension_id,
         d.title AS dimension_title
 
       FROM questions q
@@ -65,8 +55,12 @@ export async function GET(req: NextRequest) {
     console.error(error);
 
     return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 },
+      {
+        error: "Internal server error",
+      },
+      {
+        status: 500,
+      },
     );
   }
 }
