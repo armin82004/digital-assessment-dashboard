@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default async function Home() {
   return (
-    <main className="flex flex-col gap-3 sm:gap-4 justify-center items-center min-h-[calc(100vh-80px)] px-4 py-6 pb-24 sm:pb-0 sm:py-8 text-center overflow-y-auto">
+    <main className="flex flex-col gap-3 sm:gap-4 justify-center items-center min-h-[calc(100vh-80px)] px-4 py-6 pb-24 sm:pb-0 sm:py-8 text-center overflow-y-auto dark:bg-linear-to-t dark:from-neutral-950 dark:to-neutral-800">
       <h1 className="text-xl sm:text-2xl md:text-3xl leading-relaxed text-balance">
         ارزیابی آمادگی دیجیتال
       </h1>
@@ -39,7 +39,9 @@ export default async function Home() {
           href="/dashboard"
           className="block w-full sm:w-auto max-w-xs mx-auto"
         >
-          <Button variant='outline' className="w-full sm:w-auto">ورود به پنل مدیریت</Button>
+          <Button variant="outline" className="w-full sm:w-auto">
+            ورود به پنل مدیریت
+          </Button>
         </Link>
       </div>
     </main>

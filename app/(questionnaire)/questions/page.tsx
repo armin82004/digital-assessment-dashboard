@@ -163,15 +163,15 @@ function QuestionsContent() {
 
   if (finished) {
     return (
-      <main className="min-h-screen flex items-center justify-center">
+      <main className="min-h-screen flex items-center justify-center dark:bg-linear-to-t dark:from-neutral-950 dark:to-neutral-800">
         <div className="text-center flex flex-col gap-4">
           <h1 className="text-2xl font-bold">ارزیابی شما ثبت شد</h1>
 
-          <Button
+          {/* <Button
             onClick={() => router.push(`/result?respondentId=${respondentId}`)}
           >
             مشاهده نتیجه
-          </Button>
+          </Button> */}
         </div>
       </main>
     );
@@ -199,7 +199,7 @@ function QuestionsContent() {
         </div>
       )}
 
-      <main className="min-h-screen flex items-start sm:items-center justify-center px-4 pt-24 pb-10 sm:py-12">
+      <main className="min-h-screen flex items-start sm:items-center justify-center px-4 pt-24 pb-10 sm:py-12  dark:bg-linear-to-t dark:from-neutral-950 dark:to-neutral-800">
         <div className="p-4 sm:p-6 md:p-10 flex flex-col gap-6 sm:gap-8 w-full max-w-2xl">
           <div className="flex flex-col gap-2">
             <div className="flex justify-between text-xs sm:text-sm text-muted-foreground">
@@ -262,24 +262,25 @@ function QuestionsContent() {
               </FieldLabel>
             ))}
           </RadioGroup>
+          <div className="fixed bottom-0 left-0 w-full p-4 bg-neutral-200/40 dark:bg-background/50  sm:dark:bg-transparent/30  sm:bg-transparent/30 backdrop-blur-sm sm:static sm:w-auto sm:p-0">
+            <div className="flex flex-col sm:flex-row sm:justify-between gap-3 w-full sm:w-auto">
+              <Button
+                variant="outline"
+                className="w-full sm:w-auto"
+                disabled={isFirst || submitting}
+                onClick={handleBack}
+              >
+                قبلی
+              </Button>
 
-          <div className="flex flex-col-reverse sm:flex-row gap-3 sm:justify-between">
-            <Button
-              variant="outline"
-              className="w-full sm:w-auto"
-              disabled={isFirst || submitting}
-              onClick={handleBack}
-            >
-              قبلی
-            </Button>
-
-            <Button
-              className="w-full sm:w-auto"
-              disabled={!currentAnswer || submitting}
-              onClick={handleNext}
-            >
-              {isLast ? "پایان و مشاهده نتیجه" : "بعدی"}
-            </Button>
+              <Button
+                className="w-full sm:w-auto"
+                disabled={!currentAnswer || submitting}
+                onClick={handleNext}
+              >
+                {isLast ? "پایان و مشاهده نتیجه" : "بعدی"}
+              </Button>
+            </div>
           </div>
         </div>
       </main>

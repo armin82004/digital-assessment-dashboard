@@ -111,7 +111,7 @@ export default function TavanirProfileForm({ industryId, sectorId }: Props) {
   }
 
   return (
-    <div className="p-2 sm:p-6 md:p-10 flex flex-col gap-6 w-full max-w-2xl">
+    <div className="p-2 sm:p-6 md:p-10 flex flex-col gap-6 w-full max-w-2xl ">
       <h1 className="text-xl sm:text-2xl">اطلاعات تکمیلی کسب‌وکار</h1>
 
       <div className="grid gap-2">
@@ -201,7 +201,7 @@ export default function TavanirProfileForm({ industryId, sectorId }: Props) {
         />
       </div>
 
-      <div className="fixed bottom-0 left-0 w-full p-4 bg-neutral-100/30 dark:bg-background/50 backdrop-blur-sm sm:static sm:w-auto sm:p-0">
+      <div className="fixed bottom-0 left-0 w-full p-4 bg-neutral-200/40 dark:bg-background/50  sm:dark:bg-transparent/30  sm:bg-transparent/30 backdrop-blur-sm sm:static sm:w-auto sm:p-0">
         <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
           <Button variant="outline" size="lg" onClick={() => router.back()}>
             صفحه قبلی

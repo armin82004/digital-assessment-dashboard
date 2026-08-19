@@ -80,7 +80,7 @@ function RespondentProfileContents() {
   }
 
   return (
-    <main className="min-h-screen flex items-start sm:items-center justify-center px-4 py-4 sm:py-8">
+    <main className="min-h-screen flex items-start sm:items-center justify-center px-4 py-4 sm:py-8 dark:bg-linear-to-t dark:from-neutral-950 dark:to-neutral-800">
       {sector.code === "tavanir" && (
         <TavanirProfileForm industryId={industryId} sectorId={sectorId} />
       )}
@@ -100,7 +100,7 @@ export default function RespondentProfile() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex justify-center items-center">
+        <div className="min-h-screen flex justify-center items-center dark:bg-linear-to-t dark:from-neutral-950 dark:to-neutral-800">
           <Spinner className="size-8 sm:size-10" />
         </div>
       }

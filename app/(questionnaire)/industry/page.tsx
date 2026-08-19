@@ -41,7 +41,7 @@ export default function SelectIndustry() {
   }
 
   return (
-    <main className="min-h-screen flex items-start sm:items-center justify-center px-4 py-4 sm:py-8">
+    <main className="min-h-screen flex items-start sm:items-center justify-center px-4 py-4 sm:py-8 dark:bg-linear-to-t dark:from-neutral-950 dark:to-neutral-800">
       {industries.length === 0 ? (
         <div className="p-6 sm:p-10 flex items-center justify-center gap-10 w-full max-w-2xl">
           <Spinner className="size-8 sm:size-10" />
@@ -74,7 +74,7 @@ export default function SelectIndustry() {
             ))}
           </RadioGroup>
 
-          <div className="fixed bottom-0 left-0 w-full p-4 bg-neutral-100/30 dark:bg-background/50 backdrop-blur-sm sm:static sm:w-auto sm:p-0">
+          <div className="fixed bottom-0 left-0 w-full p-4 bg-neutral-200/40 dark:bg-background/50  sm:dark:bg-transparent/30  sm:bg-transparent/30 backdrop-blur-sm sm:static sm:w-auto sm:p-0">
             <div className="flex flex-col sm:flex-row sm:justify-between gap-3 w-full sm:w-auto">
               <Button
                 variant="outline"
