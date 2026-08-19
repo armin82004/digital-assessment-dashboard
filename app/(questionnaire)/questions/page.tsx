@@ -199,7 +199,7 @@ function QuestionsContent() {
         </div>
       )}
 
-      <main className="min-h-screen flex items-start sm:items-center justify-center px-4 pt-24 pb-10 sm:py-12  dark:bg-linear-to-t dark:from-neutral-950 dark:to-neutral-800">
+      <main className="min-h-screen flex items-start sm:items-center justify-center px-4 pt-24 pb-32 sm:py-12 sm:pb-12 dark:bg-linear-to-t dark:from-neutral-950 dark:to-neutral-800">
         <div className="p-4 sm:p-6 md:p-10 flex flex-col gap-6 sm:gap-8 w-full max-w-2xl">
           <div className="flex flex-col gap-2">
             <div className="flex justify-between text-xs sm:text-sm text-muted-foreground">
