@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import ThemeButton from "./theme-button";
 
 export async function SiteHeader({
   searchParams,
@@ -13,15 +13,18 @@ export async function SiteHeader({
       <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
         <SidebarTrigger className="-ml-1" />
         <Separator orientation="vertical" className="mx-2" />
-        {tab === "results" ? (
-          <h1 className="font-bold">نتایج</h1>
-        ) : tab === "reports" ? (
-          <h1 className="font-bold">گزارش‌ها</h1>
-        ) : tab === "settings" ? (
-          <h1 className="font-bold">تنظیمات</h1>
-        ) : (
-          <h1 className="font-bold">لیست کاربران</h1>
-        )}
+        <div className="flex justify-between w-full items-center">
+          {tab === "results" ? (
+            <h1 className="font-bold">نتایج</h1>
+          ) : tab === "reports" ? (
+            <h1 className="font-bold">گزارش‌ها</h1>
+          ) : tab === "settings" ? (
+            <h1 className="font-bold">تنظیمات</h1>
+          ) : (
+            <h1 className="font-bold">لیست کاربران</h1>
+          )}
+          <ThemeButton/>
+        </div>
       </div>
     </header>
   );
