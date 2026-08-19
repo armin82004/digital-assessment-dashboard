@@ -57,7 +57,7 @@ export default function Login() {
   }
 
   return (
-    <Card className="w-full max-w-sm sm:max-w-md mx-auto dark:bg-neutral-800 rounded-lg sm:rounded-xl h-auto flex flex-col justify-center p-2 sm:p-4">
+    <Card className="w-[calc(100%-2rem)] max-w-sm sm:w-full sm:max-w-md mx-auto dark:bg-neutral-800 rounded-lg sm:rounded-xl h-auto flex flex-col justify-center p-2 sm:p-4">
       {" "}
       <CardHeader className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-3 text-center">
         <Image src={"/logo.png"} width={35} height={35} alt="Logo" />
