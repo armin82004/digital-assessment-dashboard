@@ -290,7 +290,13 @@ function QuestionsContent() {
 
 export default function QuestionsPage() {
   return (
-    <Suspense fallback={<Spinner />}>
+    <Suspense
+      fallback={
+        <div className="p-6 sm:p-10 flex items-center justify-center w-full max-w-2xl dark:bg-linear-to-t dark:from-neutral-950 dark:to-neutral-800">
+          <Spinner className="size-8 sm:size-10" />
+        </div>
+      }
+    >
       <QuestionsContent />
     </Suspense>
   );

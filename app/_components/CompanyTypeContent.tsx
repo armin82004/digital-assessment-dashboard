@@ -56,7 +56,7 @@ export default function CompanyTypeContent() {
   return (
     <main className="min-h-screen flex items-start sm:items-center justify-center px-4 py-4 sm:py-8 dark:bg-linear-to-t dark:from-neutral-950 dark:to-neutral-800">
       {sectors.length === 0 ? (
-        <div className="p-6 sm:p-10 flex items-center justify-center w-full max-w-2xl">
+        <div className="p-6 sm:p-10 flex items-center justify-center w-full max-w-2xl ">
           <Spinner className="size-8 sm:size-10" />
         </div>
       ) : (
