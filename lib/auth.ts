@@ -9,7 +9,7 @@ export const pool = new Pool({
 export const auth = betterAuth({
   trustedOrigins: [
     "http://localhost:3000",
-    "https://digital-assessment-dashboard-gcjx.vercel.app/",
+    "https://digital-assessment-dashboard-gcjx.vercel.app",
   ],
   database: pool,
   emailAndPassword: {
