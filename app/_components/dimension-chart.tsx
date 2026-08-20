@@ -93,7 +93,7 @@ function PolarAngleTick(props: {
   cx?: number;
   cy?: number;
   payload?: { value: string };
-  textAnchor?: string;
+  textAnchor?: "inherit" | "start" | "middle" | "end";
 }) {
   const { x = 0, y = 0, cx = 0, cy = 0, payload, textAnchor } = props;
   const text = payload?.value ?? "";
@@ -271,7 +271,7 @@ export function DimensionChart({ data }: { data: DimensionScore[] }) {
                 label={{
                   fill: "var(--foreground)",
                   fontSize: 10,
-                  formatter: (v: number) => toPersianDigits(v.toFixed(2)),
+                  formatter: (v) => toPersianDigits(Number(v).toFixed(2)),
                 }}
               >
                 {chartData.map((_, index) => (
