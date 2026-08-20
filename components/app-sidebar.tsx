@@ -66,7 +66,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </SidebarMenuItem>
             </SidebarMenu>
 
-            <SidebarMenu>
+            {/* <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton
                   className={activeClass({
@@ -79,7 +79,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <span>گزارش‌ها</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-            </SidebarMenu>
+            </SidebarMenu> */}
 
             <SidebarMenu>
               <SidebarMenuItem>

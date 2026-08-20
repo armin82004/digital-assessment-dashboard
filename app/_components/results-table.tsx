@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import {
   Select,
   SelectContent,
@@ -8,7 +9,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -21,6 +21,7 @@ import {
   getCompanyDisplayName,
   getMaturityLevel,
   formatScore,
+  toPersianDigits,
   type QuestionnaireResult,
 } from "@/lib/db/results-helpers";
 
@@ -33,6 +34,8 @@ const SECTOR_OPTIONS = [
 
 export function ResultsTable({ results }: { results: QuestionnaireResult[] }) {
   const [sector, setSector] = useState("all");
+  const router = useRouter();
+  const pathname = usePathname();
 
   const filtered = useMemo(() => {
     if (sector === "all") return results;
@@ -47,7 +50,12 @@ export function ResultsTable({ results }: { results: QuestionnaireResult[] }) {
           onValueChange={(value) => setSector(value ?? "all")}
         >
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="فیلتر بخش" />
+            <SelectValue placeholder="فیلتر بخش">
+              {(value: string | null) =>
+                SECTOR_OPTIONS.find((opt) => opt.value === value)?.label ??
+                "فیلتر بخش"
+              }
+            </SelectValue>
           </SelectTrigger>
           <SelectContent>
             {SECTOR_OPTIONS.map((opt) => (
@@ -69,14 +77,19 @@ export function ResultsTable({ results }: { results: QuestionnaireResult[] }) {
               <TableHead>استان</TableHead>
               <TableHead>وزن کل</TableHead>
               <TableHead>سطح آمادگی دیجیتال</TableHead>
-              <TableHead className="text-left">جزئیات</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {filtered.map((row) => {
               const maturity = getMaturityLevel(row.overall_score);
               return (
-                <TableRow key={row.id}>
+                <TableRow
+                  key={row.id}
+                  onClick={() =>
+                    router.push(`${pathname}?tab=results&id=${row.id}`)
+                  }
+                  className="cursor-pointer"
+                >
                   <TableCell className="font-medium">
                     {getCompanyDisplayName(row)}
                   </TableCell>
@@ -87,12 +100,9 @@ export function ResultsTable({ results }: { results: QuestionnaireResult[] }) {
                     {formatScore(row.overall_score)}
                   </TableCell>
                   <TableCell>
-                    {maturity ? `سطح ${maturity.level} - ${maturity.title}` : "—"}
-                  </TableCell>
-                  <TableCell className="text-left">
-                    <Button variant="outline" size="sm">
-                      <a href={`/dashboard/results/${row.id}`}>جزئیات بیشتر</a>
-                    </Button>
+                    {maturity
+                      ? `سطح ${toPersianDigits(maturity.level)} - ${maturity.title}`
+                      : "—"}
                   </TableCell>
                 </TableRow>
               );
