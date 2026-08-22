@@ -23,10 +23,12 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/dist/client/components/navigation";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
   const { data: session, isPending } = authClient.useSession();
+  const router = useRouter();
 
   const user = session?.user;
 
@@ -110,6 +112,7 @@ export function NavUser() {
             <DropdownMenuItem
               onClick={async () => {
                 await authClient.signOut();
+                router.push("/auth/login");
               }}
             >
               <IconLogout />
