@@ -112,7 +112,7 @@ export function NavUser() {
             <DropdownMenuItem
               onClick={async () => {
                 await authClient.signOut();
-                router.push("/auth/login");
+                router.push("/login");
               }}
             >
               <IconLogout />
